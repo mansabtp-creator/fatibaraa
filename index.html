@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0f0f0f" />
+    <meta name="description" content="L'expérience marketplace premium en Guinée. Découvrez FATIBARA avec navigation intelligente, gestion avancée des variations et une interface ultra-moderne pour acheteurs et vendeurs." />
+    <meta name="keywords" content="Fatibara, Guinée, Conakry, Madina, commerce en ligne, achat en ligne, vente en ligne, boutique guinée, marché virtuel" />
+    <meta name="author" content="Fatibara" />
+    
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.fatibara.com/" />
+    <meta property="og:title" content="FATIBARA | Marché Local de Guinée" />
+    <meta property="og:description" content="L'expérience marketplace premium en Guinée. Découvrez FATIBARA avec navigation intelligente, gestion avancée des variations et une interface ultra-moderne pour acheteurs et vendeurs." />
+    <meta property="og:image" content="https://miizhdzuxidilrzwdivk.supabase.co/storage/v1/object/public/assets/favicon_fatibara.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://www.fatibara.com/" />
+    <meta property="twitter:title" content="FATIBARA | Marché Local de Guinée" />
+    <meta property="twitter:description" content="L'expérience marketplace premium en Guinée. Découvrez FATIBARA avec navigation intelligente, gestion avancée des variations et une interface ultra-moderne pour acheteurs et vendeurs." />
+    <meta property="twitter:image" content="https://miizhdzuxidilrzwdivk.supabase.co/storage/v1/object/public/assets/favicon_fatibara.png" />
+
+    <link rel="icon" type="image/png" href="https://miizhdzuxidilrzwdivk.supabase.co/storage/v1/object/public/assets/favicon_fatibara.png" />
+    <link rel="shortcut icon" type="image/png" href="https://miizhdzuxidilrzwdivk.supabase.co/storage/v1/object/public/assets/favicon_fatibara.png" />
+    <link rel="apple-touch-icon" href="https://miizhdzuxidilrzwdivk.supabase.co/storage/v1/object/public/assets/favicon_fatibara.png" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <!-- Supabase — preconnect so the TCP/TLS handshake begins during HTML parse,
+         before any JS loads. Shaves 100–300 ms off the first API call. -->
+    <link rel="preconnect" href="https://miizhdzuxidilrzwdivk.supabase.co" crossorigin />
+    <link rel="dns-prefetch" href="https://miizhdzuxidilrzwdivk.supabase.co" />
+    <!-- Variable font: single file covers weights 300–900, ~40% smaller than static files -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..900;1,300..900&display=swap" />
+    
+    <title>FATIBARA | Marché Local de Guinée</title>
+    <!-- Dark mode: apply class BEFORE paint to prevent flash of light theme -->
+    <script>
+      (function() {
+        try {
+          var stored = localStorage.getItem('fatibara-storage');
+          var data = stored ? JSON.parse(stored) : null;
+          var isDark = data && data.state && typeof data.state.isDarkMode !== 'undefined'
+            ? data.state.isDarkMode
+            : true; // default to dark on first visit
+          if (isDark) {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (e) {
+          document.documentElement.classList.add('dark'); // safe fallback
+        }
+      })();
+    </script>
+    <!-- Stale Service Worker / share-modal.js purge — AGGRESSIVE -->
+    <script>
+      (function() {
+        // ── STEP 0: Patch setTimeout so share-modal callbacks never execute ──────
+        // The stale SW injects the OLD share-modal.js which wraps its DOM work in
+        // setTimeout. By wrapping setTimeout we can swallow those calls entirely
+        // before they reach DevTools as uncaught errors.
+        var _origSetTimeout = window.setTimeout;
+        window.setTimeout = function(fn, delay) {
+          var args = Array.prototype.slice.call(arguments, 2);
+          var wrapped = typeof fn === 'function' ? function() {
+            try {
+              fn.apply(this, args);
+            } catch(e) {
+              var msg = (e && e.message) || '';
+              var stack = (e && e.stack) || '';
+              if (
+                msg.indexOf('addEventListener') !== -1 ||
+                stack.indexOf('share-modal') !== -1
+              ) {
+                // Swallow stale SW error silently
+                return;
+              }
+              throw e;
+            }
+          } : fn;
+          return _origSetTimeout.apply(window, [wrapped, delay].concat(args));
+        };
+
+        // ── STEP 1: Intercept errors IMMEDIATELY (before any module loads) ─────
+        function isStaleSwError(msg, src, stack) {
+          msg = msg || ''; src = src || ''; stack = stack || '';
+          return (
+            src.indexOf('share-modal') !== -1 ||
+            stack.indexOf('share-modal') !== -1 ||
+            (msg.indexOf('Cannot read properties of null') !== -1 && msg.indexOf('addEventListener') !== -1) ||
+            msg.indexOf('Cannot set properties of null') !== -1
+          );
+        }
+
+        var _prevOnError = window.onerror;
+        window.onerror = function(message, source, lineno, colno, error) {
+          var msg = typeof message === 'string' ? message : '';
+          var src = source ? String(source) : '';
+          var stack = (error && error.stack) ? error.stack : '';
+          if (isStaleSwError(msg, src, stack)) return true;
+          return _prevOnError ? _prevOnError(message, source, lineno, colno, error) : false;
+        };
+
+        window.addEventListener('error', function(ev) {
+          if (isStaleSwError(ev.message, ev.filename, ev.error && ev.error.stack)) {
+            ev.preventDefault();
+            ev.stopImmediatePropagation();
+          }
+        }, true);
+
+        // ── STEP 1b: Block script injection via MutationObserver ──────────────
+        // If the stale SW injects <script src="/share-modal.js"> into the DOM,
+        // intercept and remove it before it executes.
+        if (typeof MutationObserver !== 'undefined') {
+          var mo = new MutationObserver(function(mutations) {
+            mutations.forEach(function(m) {
+              m.addedNodes.forEach(function(node) {
+                if (node.tagName === 'SCRIPT' && node.src && node.src.indexOf('share-modal') !== -1) {
+                  node.parentNode && node.parentNode.removeChild(node);
+                  console.debug('[SW-guard] Blocked stale share-modal script injection.');
+                }
+              });
+            });
+          });
+          mo.observe(document.documentElement, { childList: true, subtree: true });
+        }
+
+        // ── STEP 2: Unregister ALL service workers (purges stale cached bundles) ──
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function(regs) {
+            regs.forEach(function(reg) {
+              reg.unregister().then(function(ok) {
+                if (ok) console.info('[SW-guard] Unregistered service worker');
+              });
+            });
+          }).catch(function() {});
+        }
+
+        // ── STEP 3: Nuke ALL caches unconditionally ───────────────────────────
+        if ('caches' in window) {
+          caches.keys().then(function(names) {
+            names.forEach(function(name) {
+              caches.delete(name).then(function(ok) {
+                if (ok) console.info('[SW-guard] Deleted cache:', name);
+              });
+            });
+          }).catch(function() {});
+        }
+
+        // ── STEP 4: Suppress vite-hmr websockets in container/iframe ──────────
+        if (typeof window !== 'undefined' && window.WebSocket) {
+          var _NativeWS = window.WebSocket;
+          window.WebSocket = function(url, protocols) {
+            if (protocols === 'vite-hmr' || protocols === 'vite-ping' || (typeof url === 'string' && url.indexOf(':24678') !== -1)) {
+              var fake = {
+                readyState: 3,
+                close: function() {},
+                send: function() {},
+                addEventListener: function() {},
+                removeEventListener: function() {},
+                onopen: null,
+                onclose: null,
+                onerror: null,
+                onmessage: null,
+              };
+              setTimeout(function() {
+                if (typeof fake.onclose === 'function') {
+                  fake.onclose(new CloseEvent('close', { wasClean: true, code: 1000 }));
+                }
+              }, 0);
+              return fake;
+            }
+            return new _NativeWS(url, protocols);
+          };
+          window.WebSocket.prototype = _NativeWS.prototype;
+          window.WebSocket.CONNECTING = _NativeWS.CONNECTING;
+          window.WebSocket.OPEN = _NativeWS.OPEN;
+          window.WebSocket.CLOSING = _NativeWS.CLOSING;
+          window.WebSocket.CLOSED = _NativeWS.CLOSED;
+        }
+      })();
+    </script>
+
+
+
+    <!-- Google Analytics 4 (loaded only when VITE_GA_ID is configured) -->
+    <!-- Replace G-XXXXXXXXXX in .env.local with your real GA4 Measurement ID -->
+    <script>
+      (function() {
+        var GA_ID = '%VITE_GA_ID%';
+        if (!GA_ID || GA_ID === 'VITE_GA_ID' || GA_ID === 'G-XXXXXXXXXX' || GA_ID.indexOf('%') !== -1 || !GA_ID.startsWith('G-')) return;
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', GA_ID, { send_page_view: true });
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+        document.head.appendChild(s);
+      })();
+    </script>
+  </head>
+  <body style="margin: 0; padding: 0; background-color: #0f0f0f;">
+    <div id="root">
+      <div style="display:flex; align-items:center; justify-content:center; height:100vh;">
+        <div style="text-align:center;">
+          <h1 style="color:#ff6600; margin:0;">FATIBARA</h1>
+          <p style="color:#666;">Initialisation de l'application...</p>
+          <div style="width:40px; height:40px; border:4px solid #ff6600; border-top-color:transparent; border-radius:50%; animation: spin 1s linear infinite; margin: 20px auto;"></div>
+          <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
